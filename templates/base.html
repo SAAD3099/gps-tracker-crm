@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b1f42">
+  <title>{% block title %}Dashboard{% endblock %} · Concept Tracking CRM</title>
+  <link rel="icon" href="{{ url_for('static', filename='concept_tracking.ico') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
+  <script>try{document.documentElement.dataset.theme=localStorage.getItem('cts-theme')||'light'}catch(e){}</script>
+  {% block head %}{% endblock %}
+</head>
+<body>
+<div class="app-shell">
+  <aside class="sidebar" id="sidebar">
+    <a class="brand" href="{{ url_for('dashboard') }}">
+      <span class="brand-mark"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 5 40 11v12c0 10-6.5 16.5-16 20C14.5 39.5 8 33 8 23V11L24 5Z" fill="currentColor" opacity=".18"/><path d="M24 10 35 14v9c0 7-4.3 12.2-11 15.2C17.3 35.2 13 30 13 23v-9l11-4Z" fill="none" stroke="currentColor" stroke-width="2.5"/><path d="m18 24 4 4 8-9" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"/></svg></span>
+      <span class="brand-copy"><strong>CONCEPT TRACKING</strong><small>SERVER PVT. LTD.</small></span>
+    </a>
+    <div class="workspace-label">WORKSPACE</div>
+    <nav class="nav-menu">
+      <a class="nav-link {% if request.endpoint == 'dashboard' %}active{% endif %}" href="{{ url_for('dashboard') }}"><span class="nav-icon">⌂</span><span>Dashboard</span></a>
+      <a class="nav-link {% if request.endpoint in ['customers','new_customer','customer_detail','edit_customer'] %}active{% endif %}" href="{{ url_for('customers') }}"><span class="nav-icon">♙</span><span>Customers</span></a>
+      <a class="nav-link {% if request.endpoint in ['plans','edit_plan'] %}active{% endif %}" href="{{ url_for('plans') }}"><span class="nav-icon">▣</span><span>Service plans</span></a>
+      <a class="nav-link {% if request.endpoint in ['inventory','new_tracker_model','edit_tracker_model','inventory_stock_in','inventory_install','inventory_adjust'] %}active{% endif %}" href="{{ url_for('inventory') }}"><span class="nav-icon">▤</span><span>Tracker inventory</span></a>
+      <a class="nav-link {% if request.endpoint == 'reports' %}active{% endif %}" href="{{ url_for('reports') }}"><span class="nav-icon">▥</span><span>Reports & finance</span></a>
+      <a class="nav-link {% if request.endpoint == 'account_settings' %}active{% endif %}" href="{{ url_for('account_settings') }}"><span class="nav-icon">⚙</span><span>Account settings</span></a>
+    </nav>
+    <div class="sidebar-bottom">
+      <div class="sidebar-status"><span class="status-dot"></span><div><strong>Local workspace</strong><small>Your records stay on this PC</small></div></div>
+      <div class="sidebar-user"><div class="avatar">{{ (session.get('username','A')[0] or 'A')|upper }}</div><div class="user-copy"><strong>{{ session.get('username','Admin')|title }}</strong><small>Administrator</small></div><form action="{{ url_for('logout') }}" method="post"><input type="hidden" name="_csrf_token" value="{{ csrf_token }}"><button class="logout-icon" title="Log out" aria-label="Log out">⇥</button></form></div>
+    </div>
+  </aside>
+  <main class="main-area">
+    <header class="topbar">
+      <button class="mobile-menu icon-button" type="button" id="menuToggle" aria-label="Open menu">☰</button>
+      <div class="breadcrumb"><span>Concept Tracking</span><b>/</b><strong>{% block breadcrumb %}Dashboard{% endblock %}</strong></div>
+      <div class="top-actions">
+        <form class="top-search" action="{{ url_for('customers') }}" method="get"><span class="search-symbol">⌕</span><input name="q" placeholder="Search customers, plate, IMEI…" aria-label="Search records"><kbd>↵</kbd></form>
+        <button class="icon-button theme-button" type="button" id="themeToggle" title="Switch theme" aria-label="Switch theme"><span id="themeGlyph">☾</span></button>
+      </div>
+    </header>
+    <div class="page-content">
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}<div class="flash-stack">{% for category, message in messages %}<div class="flash flash-{{ category }}"><span>{% if category == 'error' %}⚠{% else %}✓{% endif %}</span>{{ message }}<button type="button" class="flash-close" aria-label="Dismiss">×</button></div>{% endfor %}</div>{% endif %}
+      {% endwith %}
+      {% block content %}{% endblock %}
+      <footer class="page-footer"><span>© {{ today[:4] }} Concept Tracking Server Pvt. Ltd.</span><span>Customer & Vehicle Management <i class="footer-dot"></i> Secure local workspace</span></footer>
+    </div>
+  </main>
+</div>
+<script src="{{ url_for('static', filename='js/app.js') }}"></script>
+{% block scripts %}{% endblock %}
+</body>
+</html>

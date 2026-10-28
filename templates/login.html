@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b1f42"><title>Sign in · Concept Tracking CRM</title>
+  <link rel="icon" href="{{ url_for('static', filename='concept_tracking.ico') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
+  <script>try{document.documentElement.dataset.theme=localStorage.getItem('cts-theme')||'light'}catch(e){}</script>
+</head>
+<body class="login-body">
+  <div class="login-theme"><button class="icon-button theme-button" id="themeToggle" aria-label="Switch theme" title="Switch theme"><span id="themeGlyph">☾</span></button></div>
+  <div class="login-layout">
+    <section class="login-brand-panel">
+      <div class="login-brand"><span class="brand-mark large"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 5 40 11v12c0 10-6.5 16.5-16 20C14.5 39.5 8 33 8 23V11L24 5Z" fill="currentColor" opacity=".18"/><path d="M24 10 35 14v9c0 7-4.3 12.2-11 15.2C17.3 35.2 13 30 13 23v-9l11-4Z" fill="none" stroke="currentColor" stroke-width="2.5"/><path d="m18 24 4 4 8-9" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"/></svg></span><div><strong>CONCEPT TRACKING</strong><small>SERVER PVT. LTD.</small></div></div>
+      <div class="login-pitch"><span class="eyebrow light-eyebrow">OPERATIONS WORKSPACE</span><h1>Your fleet.<br><em>In control.</em></h1><p>A central place for customer records, vehicle details, tracker IMEIs, service renewals and payment history.</p></div>
+      <div class="login-feature-list"><div><span>✓</span> Customer & vehicle records</div><div><span>✓</span> Service & renewal tracking</div><div><span>✓</span> Payments and document records</div></div>
+      <div class="login-panel-foot">BUILT FOR DAILY OPERATIONS <span>•</span> LOCAL DESKTOP WORKSPACE</div>
+    </section>
+    <section class="login-form-panel"><div class="login-form-wrap">
+      <div class="login-mobile-brand"><span class="brand-mark"><svg viewBox="0 0 48 48"><path d="M24 5 40 11v12c0 10-6.5 16.5-16 20C14.5 39.5 8 33 8 23V11L24 5Z" fill="currentColor" opacity=".18"/><path d="M24 10 35 14v9c0 7-4.3 12.2-11 15.2C17.3 35.2 13 30 13 23v-9l11-4Z" fill="none" stroke="currentColor" stroke-width="2.5"/><path d="m18 24 4 4 8-9" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"/></svg></span><strong>CONCEPT TRACKING</strong></div>
+      <div class="login-heading"><span class="eyebrow">ADMIN ACCESS</span><h2>Welcome back</h2><p>Sign in to access your company workspace.</p></div>
+      {% with messages = get_flashed_messages(with_categories=true) %}{% if messages %}<div class="flash-stack">{% for category, message in messages %}<div class="flash flash-{{ category }}"><span>⚠</span>{{ message }}</div>{% endfor %}</div>{% endif %}{% endwith %}
+      <form method="post" class="login-form"><input type="hidden" name="_csrf_token" value="{{ csrf_token }}">
+        <label for="username">Username</label><div class="input-with-icon"><span>♙</span><input id="username" name="username" autocomplete="username" placeholder="Enter your username" required autofocus></div>
+        <label for="password">Password</label><div class="input-with-icon"><span>⌑</span><input id="password" name="password" type="password" autocomplete="current-password" placeholder="Enter your password" required><button type="button" class="show-password" id="showPassword">Show</button></div>
+        <button type="submit" class="btn btn-primary login-submit">Sign in <span>→</span></button>
+      </form>
+      <div class="login-security"><span class="lock-symbol">▣</span><div><strong>Private local access</strong><small>Your database and uploaded documents are stored in this project folder.</small></div></div>
+      <p class="login-copyright">© {{ today if today is defined else '2026' }} Concept Tracking Server Pvt. Ltd.</p>
+    </div></section>
+  </div>
+  <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+  <script>const show=document.getElementById('showPassword');if(show){show.addEventListener('click',()=>{const p=document.getElementById('password');const on=p.type==='password';p.type=on?'text':'password';show.textContent=on?'Hide':'Show';});}</script>
+</body></html>
